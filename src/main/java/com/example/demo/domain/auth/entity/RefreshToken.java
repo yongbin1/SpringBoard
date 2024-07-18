@@ -11,7 +11,7 @@ import org.springframework.data.redis.core.RedisHash;
 
 @Getter
 @Builder
-@@AllArgsConstructor
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @RedisHash(value = "refreshToken", timeToLive = 2592000L)
 public class RefreshToken {

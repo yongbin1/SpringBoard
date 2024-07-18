@@ -1,15 +1,11 @@
 package com.example.demo.global.security.auth;
 
 import com.example.demo.domain.user.entity.User;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-@Getter
-@RequiredArgsConstructor
 public record AuthDetails(User user) implements UserDetails {
 
     @Override

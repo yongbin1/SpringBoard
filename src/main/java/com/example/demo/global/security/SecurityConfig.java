@@ -58,13 +58,13 @@ public class SecurityConfig {
                         .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 
                         // Custom AuthorizeHttpRequest Matcher (hasRole)
-                        .requestMatchers(HttpMethod.POST, "").hasRole("USER")
+//                        .requestMatchers(HttpMethod.POST, "").hasRole("USER")
 
                         // Custom AuthorizeHttpRequest Matcher (hasAnyRole)
-                        .requestMatchers(HttpMethod.POST, "").hasAnyRole("USER", "ADMIN")
+//                        .requestMatchers(HttpMethod.POST, "").hasAnyRole("USER", "ADMIN")
 
                         // Custom AuthorizeHttpRequest Matcher (authenticated)
-                        .requestMatchers(HttpMethod.POST, "").authenticated()
+//                        .requestMatchers(HttpMethod.POST, "").authenticated()
 
                         .anyRequest().denyAll()
                 )
