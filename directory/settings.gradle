@@ -1,0 +1,9 @@
+rootProject.name = 'directory'
+
+include 'gryard-api-module:user-api'
+
+include 'gryard-domain-module:user-domain'
+include 'gryard-domain-module:auth-domain'
+
+include 'gryard-core-module'
+include 'gryard-infra-module'
