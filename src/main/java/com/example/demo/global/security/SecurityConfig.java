@@ -1,6 +1,8 @@
 package com.example.demo.global.security;
 
+import com.example.demo.global.security.auth.AuthDetailsService;
 import com.example.demo.global.security.jwt.JwtFilter;
+import com.example.demo.global.security.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +22,9 @@ import org.springframework.web.cors.CorsUtils;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtProvider jwtProvider;
+    private final AuthDetailsService authDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -63,7 +68,7 @@ public class SecurityConfig {
 
                         .anyRequest().denyAll()
                 )
-                .addFilterBefore(new JwtFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtFilter(jwtProvider, authDetailsService), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

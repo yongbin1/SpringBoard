@@ -3,11 +3,13 @@ package com.example.demo.domain.user.facade;
 import com.example.demo.domain.user.entity.User;
 import com.example.demo.domain.user.exception.ExistsUserEmailException;
 import com.example.demo.domain.user.exception.ExistsUserIdException;
+import com.example.demo.domain.user.exception.PasswordWrongException;
 import com.example.demo.domain.user.exception.UserNotFoundException;
 import com.example.demo.domain.user.repository.UserRepository;
 import com.example.demo.global.security.auth.AuthDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserFacade {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public User getCurrentLoginUser() {
         AuthDetails auth = (AuthDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -33,6 +36,13 @@ public class UserFacade {
     public void checkExistsId(String userId) {
         if (userRepository.existsByUserId(userId)){
             throw ExistsUserIdException.EXCEPTION;
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public void checkPasswordMatch(String rawPassword, String encodedPassword) {
+        if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
+            throw PasswordWrongException.EXCEPTION;
         }
     }
 

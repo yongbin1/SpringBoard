@@ -1,5 +1,7 @@
 package com.example.demo.global.security.jwt;
 
+import com.example.demo.domain.auth.entity.RefreshToken;
+import com.example.demo.domain.auth.repository.RefreshTokenRepository;
 import com.example.demo.domain.user.entity.User;
 import com.example.demo.domain.user.exception.UserNotFoundException;
 import com.example.demo.domain.user.repository.UserRepository;
@@ -25,13 +27,17 @@ public class JwtProvider {
 
     private final JwtProperty property;
     private final UserRepository userRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     public String generateAccessToken(String userId) {
         return generateToken(userId, property.getAccessExp());
     }
 
     public String generateRefreshToken(String userId) {
-        return generateToken(userId, property.getRefreshExp());
+        String refreshToken = generateToken(userId, property.getRefreshExp());
+        refreshTokenRepository.save(new RefreshToken(refreshToken, userId));
+
+        return refreshToken;
     }
 
     public User validateToken(String token) {
