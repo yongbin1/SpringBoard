@@ -1,11 +1,14 @@
 package com.example.demo.domain.user.entity;
 
+import com.example.demo.domain.blog.entity.Blog;
 import com.example.demo.global.entity.BaseEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +16,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -45,5 +49,12 @@ public class User extends BaseEntity {
 
     @Column(nullable = true)
     private LocalDateTime lastLoginDateTime;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Blog> blogList;
+    public void addBlog(Blog blog) {
+        blog.setUser(this);
+        this.blogList.add(blog);
+    }
 
 }

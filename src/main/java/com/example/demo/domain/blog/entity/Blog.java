@@ -32,6 +32,9 @@ public class Blog extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     private boolean status; // 0 = 비활성, 1 = 활성
 
